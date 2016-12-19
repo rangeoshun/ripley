@@ -35,7 +35,7 @@ function ripleyInit () {
 
   document.addEventListener(
     'DOMContentLoaded', (ev) => {
-      document.querySelector('.ripley').forEach((element) =>
+      document.querySelectorAll('.ripley').forEach((element) =>
         addRipleyEffectOnClick(element)
       );
     }
