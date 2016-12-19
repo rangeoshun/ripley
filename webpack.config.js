@@ -7,9 +7,18 @@ module.exports = {
     filename: 'ripley.min.js'
   },
   devtool: 'source-map',
+  loaders: [
+    {
+      test: /\.js$/,
+      loader: 'babel-loader',
+      query: {
+        presets: ['es2015']
+      }
+    }
+  ],
   plugins: [
     new ClosureCompilerPlugin({
-      compilation_level: 'ADVANCED',
+      compilation_level: 'SIMPLE',
       create_source_map: false,
       env: 'BROWSER'
     })

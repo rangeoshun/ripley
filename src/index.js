@@ -13,20 +13,19 @@ module.exports = {
 
 function createRipley (ev, id) {
   const ripley = document.createElement('div');
-  ripley.className = 'ripley-effect';
-  ripley.style.animation = `animation: ripley-${id} 0.7s ease-in-out;`;
   ripley.appendChild(createStyle(animationCSS(ev, id)));
+  ripley.className = 'ripley-effect';
+  ripley.style.animation = `ripley-${id} 0.7s ease-in-out`;
   return ripley;
 }
 
 function addRipleyEffectOnClick (element) {
   element.addEventListener('click', (ev) => {
     const id = new Date().getTime();
-    const element = ev.target;
     const ripleyEffect = createRipley(ev, id);
 
     element.insertBefore(ripleyEffect, element.firstChild);
-    setTimeout(() => element.removeChild(ripleyEffect), 700);
+    setTimeout(() => element.removeChild(ripleyEffect), 70000);
   });
 }
 
