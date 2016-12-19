@@ -6,7 +6,6 @@ module.exports = {
     path: `${__dirname}/dist/`,
     filename: 'ripley.min.js'
   },
-  devtool: 'source-map',
   loaders: [
     {
       test: /\.js$/,
