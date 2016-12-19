@@ -25,7 +25,7 @@ function addRipleyEffectOnClick (element) {
     const ripleyEffect = createRipley(ev, id);
 
     element.insertBefore(ripleyEffect, element.firstChild);
-    setTimeout(() => element.removeChild(ripleyEffect), 70000);
+    setTimeout(() => element.removeChild(ripleyEffect), 700);
   });
 }
 
