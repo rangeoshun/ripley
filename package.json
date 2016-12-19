@@ -1,0 +1,22 @@
+{
+  "name": "ripley-effect",
+  "version": "0.1.0",
+  "description": "Another material ripple effect solution.",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "webpack",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ripple",
+    "effect",
+    "material",
+    "svg"
+  ],
+  "author": "rangeoshun@gmail.com",
+  "license": "MIT",
+  "devDependencies": {
+    "closure-compiler-webpack-plugin": "^0.1.8",
+    "webpack": "^1.14.0"
+  }
+}
