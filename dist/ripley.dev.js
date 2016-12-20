@@ -249,7 +249,7 @@
 	 *    the customized ripple animation with correct X and Y coords.
 	 */
 	module.exports = function ripleyAnimationCSS (ev, id, isTouchDevice) {
-	console.log(ev)
+
 	  const width = ev.target.offsetWidth;
 	  const posX = !isTouchDevice ? ev.offsetX : ev.touches[0].clientX - ev.target.offsetLeft;
 	  const posY = !isTouchDevice ? ev.offsetY : ev.touches[0].clientY - ev.target.offsetTop;
