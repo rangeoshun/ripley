@@ -14,7 +14,7 @@ It will collect all elements with class `ripley` on `DOMConentLoaded` event.
 <button class="ripley">My ripley button</button>
 ```
 
-Alternatively you can do this manually on a single element.
+Alternatively you can do this manually on a single element. This will recieve `ripley` class.
 
 ```html
 <button id="ripleyWannabe">My ripley wannabe button</button>
@@ -23,7 +23,8 @@ Alternatively you can do this manually on a single element.
 </script>
 ```
 
-Or multiple elements.
+Or multiple elements. These will recieve `ripley` class.
+
 ```html
 <button>My ripley wannabe button</button>
 <button>And his mate</button>
