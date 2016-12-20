@@ -1,2 +1,2 @@
-# Ripley, just another material ripple effect
+# Ripley, just another material ripple effect plugin
 
