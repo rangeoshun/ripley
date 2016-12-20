@@ -7,13 +7,25 @@ const START_EVENT = !isTouchDevice ? 'mousedown' : 'touchstart';
 const END_EVENT = !isTouchDevice ? 'mouseup' : 'touchend';
 const OUT_EVENT = !isTouchDevice ? 'mouseout' : 'touchmove';
 
+/**
+ * Assignes ripple effect to desired element. Attaches an event listener
+ * for the various stages of interactions. It ads a ripple wrapper element,
+ * and manipulates classes according to events.
+ * It also appends ripley class name onto the element, but stays idle if the
+ * element already has a ripple added.
+ *
+ * @param element {HTMLElement}
+ *    The element to ripple.
+ */
 module.exports = function addRipleyEffect (element) {
+  if (element.dataset.ripley) {
+    return;
+  }
+
+  element.dataset.ripley = true;
+  element.classList.add('ripley');
 
   element.addEventListener(START_EVENT, (ev) => {
-    if (!element.classList.contains('ripley')) {
-      element.classList.add('ripley');
-    }
-
     const id = new Date().getTime();
     const ripleyEffect = createRipley(ev, id, isTouchDevice);
 
