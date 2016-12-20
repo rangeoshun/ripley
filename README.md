@@ -18,8 +18,9 @@ Alternatively you can do this manually on a single element. This will recieve `r
 
 ```html
 <button id="ripleyWannabe">My ripley wannabe button</button>
-<script src="ripley.min.js">
-    ripley.add(document.getElementById('ripleyWannabe'));
+<script src="ripley.min.js"></script>
+<script>
+    ripley.add(document.getElementById('ripleyWannabe'));
 </script>
 ```
 
