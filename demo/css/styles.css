@@ -1,0 +1,33 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+svg#rippleCircle {
+  display: none;
+}
+
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,300,400,700);
+
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
+button {
+  width: 100%;
+  max-width: 320px;
+  height: 50px;
+  font-weight: bold;
+  outline: 0;
+  border: none;
+  background-color: #fff;
+  transition: background-color 0.2s ease-in-out;
+  margin: 10px auto;
+  display: block;
+}
+
+button:hover {
+  background-color: #eee;
+}

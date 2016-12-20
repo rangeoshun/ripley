@@ -48,44 +48,22 @@
 
 	const staticCSS = __webpack_require__(1);
 	const backgroundCSS = __webpack_require__(2);
-	const animationCSS = __webpack_require__(4);
-	const createStyle = __webpack_require__(5);
+	const createStyle = __webpack_require__(4);
+	const addRipleyEffect = __webpack_require__(5);
 
-	ripleyInit();
+	document.head.appendChild(createStyle(`${staticCSS()}\n${backgroundCSS()}`));
 
-	module.exports = {
-	  add: addRipleyEffectOnClick
+	window.ripley = {
+	  add: addRipleyEffect
 	};
 
-	function createRipley (ev, id) {
-	  const ripley = document.createElement('div');
-	  ripley.appendChild(createStyle(animationCSS(ev, id)));
-	  ripley.className = 'ripley-effect';
-	  ripley.style.animation = `ripley-${id} 0.7s ease-in-out`;
-	  return ripley;
-	}
-
-	function addRipleyEffectOnClick (element) {
-	  element.addEventListener('click', (ev) => {
-	    const id = new Date().getTime();
-	    const ripleyEffect = createRipley(ev, id);
-
-	    element.insertBefore(ripleyEffect, element.firstChild);
-	    setTimeout(() => element.removeChild(ripleyEffect), 700);
-	  });
-	}
-
-	function ripleyInit () {
-	  document.head.appendChild(createStyle(`${staticCSS()}\n${backgroundCSS()}`));
-
-	  document.addEventListener(
-	    'DOMContentLoaded', (ev) => {
-	      document.querySelectorAll('.ripley').forEach((element) =>
-	        addRipleyEffectOnClick(element)
-	      );
-	    }
-	  );
-	};
+	document.addEventListener(
+	  'DOMContentLoaded', (ev) => {
+	    document.querySelectorAll('.ripley').forEach((element) =>
+	      addRipleyEffect(element)
+	    );
+	  }
+	);
 
 
 /***/ },
@@ -96,6 +74,14 @@
 
 	module.exports = function ripleyStaticCSS () {
 	  return `
+	    .ripley {
+	      position: relative;
+	    }
+
+	    .ripley * {
+	      pointer-events: none;
+	    }
+
 	    .ripley-effect {
 	      content: ' ';
 	      display: block;
@@ -109,10 +95,15 @@
 	      opacity: 0;
 
 	      background-repeat: no-repeat;
-
+	      pointer-events: none;
 	      z-index: 0;
+
+	      transition: opacity 0.7s ease-in-out;
 	    }
-	  `;
+
+	    .ripley-in {
+	      opacity: 0.7;
+	    }`;
 	};
 
 /***/ },
@@ -163,60 +154,12 @@
 	    <svg xmlns="http://www.w3.org/2000/svg" id="ripleyCircle" height="100" width="100">
 	      <circle cx="50" cy="50" r="40" fill="${bgColor ? bgColor : defaultBGColor}" />
 	    </svg>`)
-	      .split('\n')
-	      .join('');
+	      .replace('\n', '');
 	};
 
 
 /***/ },
 /* 4 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	/**
-	 * Creates per click CSS animation strings.
-	 *
-	 * @param ev {MouseEvent}
-	 *    The click event from the element to ripple over.
-	 * @param id {stirng}
-	 *    The unique ID for the effect per clicks.
-	 * @returns {string}
-	 *    the customized ripple animation with correct X and Y coords.
-	 */
-	module.exports = function ripleyAnimationCSS (ev, id) {
-
-	  const width = ev.target.offsetWidth;
-	  const posX = ev.offsetX;
-	  const posY = ev.offsetY;
-	  const finalRatio = 3;
-	  const finalRadius = width * finalRatio;
-	  const finalX = posX - finalRadius / 2;
-	  const finalY = posY - finalRadius / 2;
-
-	  return `
-	    @keyframes ripley-${id} {
-	      0% {
-	        background-size: 0;
-	        -webkit-background-size: 0;
-	        background-position: ${posX}px ${posY}px;
-	        opacity: 0.2;
-	      }
-	      50% {
-	        opacity: 0.7;
-	      }
-	      100% {
-	        background-size: ${finalRadius}px;
-	        -webkit-background-size: ${finalRadius}px;
-	        background-position: ${finalX}px ${finalY}px;
-	        opacity: 0;
-	      }
-	    }`;
-	}
-
-
-/***/ },
-/* 5 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -234,6 +177,111 @@
 	  style.innerHTML = styleString.replace(/\t/g, '').replace(/\n/g, '');
 	  return style;
 	};
+
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	const createRipley = __webpack_require__(6);
+
+	const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints;
+	const START_EVENT = !isTouchDevice ? 'mousedown' : 'touchstart';
+	const END_EVENT = !isTouchDevice ? 'mouseup' : 'touchend';
+	const OUT_EVENT = !isTouchDevice ? 'mouseout' : 'touchmove';
+
+	module.exports = function addRipleyEffect (element) {
+
+	  element.addEventListener(START_EVENT, (ev) => {
+	    if (!element.classList.contains('ripley')) {
+	      element.classList.add('ripley');
+	    }
+
+	    const id = new Date().getTime();
+	    const ripleyEffect = createRipley(ev, id, isTouchDevice);
+
+	    const outFunc = (ev) => {
+	      setTimeout(() => element.removeChild(ripleyEffect), 700);
+	      element.firstChild.classList.remove('ripley-in');
+	      element.removeEventListener(END_EVENT, outFunc);
+	      element.removeEventListener(OUT_EVENT, outFunc);
+	    };
+
+	    element.insertBefore(ripleyEffect, element.firstChild);
+	    element.addEventListener(END_EVENT, outFunc);
+	    element.addEventListener(OUT_EVENT, outFunc);
+	  });
+	};
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	const createStyle = __webpack_require__(4);
+	const animationCSS = __webpack_require__(7);
+
+	module.exports = function createRipley (ev, id, isTouchDevice) {
+	  const ripley = document.createElement('div');
+	  ripley.appendChild(createStyle(animationCSS(ev, id, isTouchDevice)));
+	  ripley.className = `ripley-effect ripley-in ripley-${id}`;
+	  ripley.style.animation = `ripley-${id} 0.7s ease-in-out`;
+	  return ripley;
+	};
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	/**
+	 * Creates per click CSS animation strings.
+	 *
+	 * @param ev {MouseEvent}
+	 *    The click event from the element to ripple over.
+	 * @param id {stirng}
+	 *    The unique ID for the effect per clicks.
+	 * @returns {string}
+	 *    the customized ripple animation with correct X and Y coords.
+	 */
+	module.exports = function ripleyAnimationCSS (ev, id, isTouchDevice) {
+	console.log(ev)
+	  const width = ev.target.offsetWidth;
+	  const posX = !isTouchDevice ? ev.offsetX : ev.touches[0].clientX - ev.target.offsetLeft;
+	  const posY = !isTouchDevice ? ev.offsetY : ev.touches[0].clientY - ev.target.offsetTop;
+	  const finalRatio = 3;
+	  const finalRadius = width * finalRatio;
+	  const finalX = posX - finalRadius / 2;
+	  const finalY = posY - finalRadius / 2;
+
+	  return `
+	    .ripley-${id} {
+	        background-size: ${finalRadius}px;
+	        -webkit-background-size: ${finalRadius}px;
+	        background-position: ${finalX}px ${finalY}px;
+	    }
+
+	    @keyframes ripley-${id} {
+	      0% {
+	        background-size: 0;
+	        -webkit-background-size: 0;
+	        background-position: ${posX}px ${posY}px;
+	        opacity: 0.2;
+	      }
+	      50% {
+	        opacity: 0.7;
+	      }
+	      100% {
+	        background-size: ${finalRadius}px;
+	        -webkit-background-size: ${finalRadius}px;
+	        background-position: ${finalX}px ${finalY}px;
+	      }
+	    }`;
+	}
 
 
 /***/ }

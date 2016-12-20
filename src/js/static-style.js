@@ -2,6 +2,14 @@
 
 module.exports = function ripleyStaticCSS () {
   return `
+    .ripley {
+      position: relative;
+    }
+
+    .ripley * {
+      pointer-events: none;
+    }
+
     .ripley-effect {
       content: ' ';
       display: block;
@@ -15,8 +23,13 @@ module.exports = function ripleyStaticCSS () {
       opacity: 0;
 
       background-repeat: no-repeat;
-
+      pointer-events: none;
       z-index: 0;
+
+      transition: opacity 0.7s ease-in-out;
     }
-  `;
+
+    .ripley-in {
+      opacity: 0.7;
+    }`;
 };

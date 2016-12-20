@@ -1,0 +1,29 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>The Ripley Demo</title>
+  <meta name="description" content="Ripley material ripple demo">
+  <meta name="author" content="range">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
+  <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+
+  <button class="ripley">
+    CLICK FOR BY <code>.ripley</code> CLASS
+  </button>
+  <button id="ID">
+    CLICK FOR BY <code>#ID</code>
+  </button>
+  <script src="../dist/ripley.dev.js"></script>
+  <script>
+    ripley.add(document.getElementById('ID'));
+  </script>
+</body>
+</html>
