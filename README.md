@@ -29,7 +29,8 @@ Or multiple elements. These will recieve `ripley` class.
 ```html
 <button>My ripley wannabe button</button>
 <button>And his mate</button>
-<script src="ripley.min.js">
-    document.querySelectorAll('button').forEach((element) => ripley.add(element));
+<script src="ripley.min.js"></script>
+<script>
+    document.querySelectorAll('button').forEach((element) => ripley.add(element));
 </script>
 ```
