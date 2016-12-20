@@ -8,7 +8,7 @@ Include Ripley in your HTML.
 <script src="ripley.min.js"></script>
 ```
 
-It will collect all elements with class `ripley` on `DOMConentLoaded` event.
+It will collect all elements with class `ripley` on `DOMContentLoaded` event.
 
 ```html
 <button class="ripley">My ripley button</button>
