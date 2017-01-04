@@ -25,12 +25,12 @@ module.exports = function addRipleyEffect (element)
   }
 
   element.dataset.ripley = true;
-  element.dataset.ripleyId = new Date().getTime();
   element.classList.add('ripley');
 
   element.addEventListener(START_EVENT, (ev) =>
   {
-    const ripleyEffect = createRipley(ev, element, isTouchDevice);
+    const id = new Date().getTime();
+    const ripleyEffect = createRipley(ev, element, id, isTouchDevice);
 
     const outFunc = (ev) =>
     {

@@ -215,12 +215,12 @@
 	  }
 
 	  element.dataset.ripley = true;
-	  element.dataset.ripleyId = new Date().getTime();
 	  element.classList.add('ripley');
 
 	  element.addEventListener(START_EVENT, (ev) =>
 	  {
-	    const ripleyEffect = createRipley(ev, element, isTouchDevice);
+	    const id = new Date().getTime();
+	    const ripleyEffect = createRipley(ev, element, id, isTouchDevice);
 
 	    const outFunc = (ev) =>
 	    {
@@ -257,12 +257,11 @@
 	 * @returns {HTMLDivElement}
 	 *    The ripple effect wrapper DIV.
 	 */
-	module.exports = function createRipley (ev, element, isTouchDevice)
+	module.exports = function createRipley (ev, element, id, isTouchDevice)
 	{
-	  const id = element.dataset.ripleyId;
 	  const ripley = document.createElement('div');
 
-	  ripley.appendChild(createStyle(animationCSS(ev, element, isTouchDevice)));
+	  ripley.appendChild(createStyle(animationCSS(ev, element, id, isTouchDevice)));
 	  ripley.className = `ripley-effect ripley-in ripley-${id}`;
 	  ripley.style.animation = `ripley-${id} 0.7s ease-in-out`;
 
@@ -286,9 +285,8 @@
 	 * @returns {string}
 	 *    the customized ripple animation with correct X and Y coords.
 	 */
-	module.exports = function ripleyAnimationCSS (ev, element, isTouchDevice)
+	module.exports = function ripleyAnimationCSS (ev, element, id, isTouchDevice)
 	{
-	  const id = element.dataset.ripleyId;
 	  const width = element.offsetWidth;
 	  const pointer = (!isTouchDevice ? ev : ev.touches[0]);
 	  const posX = pointer.clientX - element.offsetLeft;

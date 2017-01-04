@@ -10,9 +10,8 @@
  * @returns {string}
  *    the customized ripple animation with correct X and Y coords.
  */
-module.exports = function ripleyAnimationCSS (ev, element, isTouchDevice)
+module.exports = function ripleyAnimationCSS (ev, element, id, isTouchDevice)
 {
-  const id = element.dataset.ripleyId;
   const width = element.offsetWidth;
   const pointer = (!isTouchDevice ? ev : ev.touches[0]);
   const posX = pointer.clientX - element.offsetLeft;

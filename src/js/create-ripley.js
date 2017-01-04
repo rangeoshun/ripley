@@ -14,12 +14,11 @@ const animationCSS = require('./animation-style');
  * @returns {HTMLDivElement}
  *    The ripple effect wrapper DIV.
  */
-module.exports = function createRipley (ev, element, isTouchDevice)
+module.exports = function createRipley (ev, element, id, isTouchDevice)
 {
-  const id = element.dataset.ripleyId;
   const ripley = document.createElement('div');
 
-  ripley.appendChild(createStyle(animationCSS(ev, element, isTouchDevice)));
+  ripley.appendChild(createStyle(animationCSS(ev, element, id, isTouchDevice)));
   ripley.className = `ripley-effect ripley-in ripley-${id}`;
   ripley.style.animation = `ripley-${id} 0.7s ease-in-out`;
 
