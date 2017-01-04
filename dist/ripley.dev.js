@@ -47,11 +47,10 @@
 	'use strict';
 
 	const staticCSS = __webpack_require__(1);
-	const backgroundCSS = __webpack_require__(2);
-	const createStyle = __webpack_require__(4);
-	const addRipleyEffect = __webpack_require__(5);
+	const createStyle = __webpack_require__(2);
+	const addRipleyEffect = __webpack_require__(3);
 
-	document.head.appendChild(createStyle(`${staticCSS()}\n${backgroundCSS()}`));
+	document.head.appendChild(createStyle(`${staticCSS()}\n`));
 
 	window.ripley = {
 	  add: addRipleyEffect
@@ -60,9 +59,12 @@
 	document.addEventListener(
 	  'DOMContentLoaded', (ev) =>
 	  {
-	    document.querySelectorAll('.ripley').forEach((element) =>
-	      addRipleyEffect(element)
-	    );
+	    const ripleys = document.querySelectorAll('.ripley')
+
+	    for (let i = 0; i < ripleys.length; i++)
+	    {
+	      addRipleyEffect(ripleys[i]);
+	    }
 	  }
 	);
 
@@ -110,60 +112,6 @@
 
 /***/ },
 /* 2 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	const svg = __webpack_require__(3);
-
-	/**
-	 * Creates a CSS string for initialization of effects.
-	 *
-	 * @param bgColor {string}
-	 *    The CSS color to use for the effect.
-	 * @param id {string}
-	 *    The ID for unique background color.
-	 * @returns {string}
-	 *    The CSS string to set ripple effect background.
-	 */
-	module.exports = function ripleyBackgroundStyle (bgColor, id)
-	{
-	  return `
-	    .ripley-effect${ id ? '-'+ id : '' } {
-	      background-image: url('data:image/svg+xml;utf8,${ svg(bgColor) }');
-	    }`;
-	};
-
-
-/***/ },
-/* 3 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	const defaultBGColor = `rgba(0, 0, 0, 0.2)`;
-
-	/**
-	 * Generates the SVG for ripples.
-	 *
-	 * @param bgColor {string}
-	 *    The CSS string to use as background color, like: #ccc, rgba(0,0,0,0.2), etc.
-	 *    The later example is the default color.
-	 * @returns {string}
-	 *    The string to use as background image.
-	 */
-	module.exports = function ripleySVG (bgColor)
-	{
-	  return (`
-	    <svg xmlns="http://www.w3.org/2000/svg" id="ripleyCircle" height="100" width="100">
-	      <circle cx="50" cy="50" r="40" fill="${bgColor ? bgColor : defaultBGColor}" />
-	    </svg>`)
-	      .replace('\n', '');
-	};
-
-
-/***/ },
-/* 4 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -180,17 +128,18 @@
 	{
 	  const style = document.createElement('style');
 	  style.innerHTML = styleString.replace(/\t/g, '').replace(/\n/g, '');
+
 	  return style;
 	};
 
 
 /***/ },
-/* 5 */
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	const createRipley = __webpack_require__(6);
+	const createRipley = __webpack_require__(4);
 
 	const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints;
 	const START_EVENT = !isTouchDevice ? 'mousedown' : 'touchstart';
@@ -224,7 +173,7 @@
 
 	    const outFunc = (ev) =>
 	    {
-	      setTimeout(() => element.removeChild(ripleyEffect), 700);
+	      setTimeout(() => element.removeChild(ripleyEffect), 70000);
 	      element.firstChild.classList.remove('ripley-in');
 	      element.removeEventListener(END_EVENT, outFunc);
 	      element.removeEventListener(OUT_EVENT, outFunc);
@@ -238,11 +187,11 @@
 
 
 /***/ },
-/* 6 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const createStyle = __webpack_require__(4);
-	const animationCSS = __webpack_require__(7);
+	const createStyle = __webpack_require__(2);
+	const animationCSS = __webpack_require__(5);
 
 	/**
 	 * Creates a wrapper element for the ripple effect. Generates and sets the animation
@@ -250,6 +199,8 @@
 	 *
 	 * @param ev {MouseEvent | TouchEvent}
 	 *    The user input event for triggering the ripple.
+	 * @param element {HTMLElement}
+	 *    The element to ripple.
 	 * @param id {number}
 	 *    The id for unique ripple like a timestamp.
 	 * @param isTouchDevice {boolean}
@@ -260,9 +211,8 @@
 	module.exports = function createRipley (ev, element, id, isTouchDevice)
 	{
 	  const ripley = document.createElement('div');
-
 	  ripley.appendChild(createStyle(animationCSS(ev, element, id, isTouchDevice)));
-	  ripley.className = `ripley-effect ripley-in ripley-${id}`;
+	  ripley.className = `ripley-effect ripley-effect-${id} ripley-in`;
 	  ripley.style.animation = `ripley-${id} 0.7s ease-in-out`;
 
 	  return ripley;
@@ -270,16 +220,20 @@
 
 
 /***/ },
-/* 7 */
-/***/ function(module, exports) {
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+
+	const backgroundCSS = __webpack_require__(6);
 
 	/**
 	 * Creates per click CSS animation strings.
 	 *
 	 * @param ev {MouseEvent}
 	 *    The click event from the element to ripple over.
+	 * @param element {HTMLElement}
+	 *    The element to ripple.
 	 * @param id {stirng}
 	 *    The unique ID for the effect per clicks.
 	 * @returns {string}
@@ -297,10 +251,29 @@
 	  const finalY = posY - finalRadius / 2;
 
 	  return `
-	    .ripley-${id} {
+	    ${backgroundCSS(getComputedStyle(element).color, id)}
+
+	    .ripley-effect-${id} {
 	        background-size: ${finalRadius}px;
 	        -webkit-background-size: ${finalRadius}px;
 	        background-position: ${finalX}px ${finalY}px;
+	    }
+
+	    @-ms-keyframes ripley-${id} {
+	      0% {
+	        background-size: 0;
+	        -webkit-background-size: 0;
+	        background-position: ${posX}px ${posY}px;
+	        opacity: 0.2;
+	      }
+	      50% {
+	        opacity: 0.7;
+	      }
+	      100% {
+	        background-size: ${finalRadius}px;
+	        -webkit-background-size: ${finalRadius}px;
+	        background-position: ${finalX}px ${finalY}px;
+	      }
 	    }
 
 	    @keyframes ripley-${id} {
@@ -319,6 +292,72 @@
 	        background-position: ${finalX}px ${finalY}px;
 	      }
 	    }`;
+	};
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	const svg = __webpack_require__(7);
+
+	/**
+	 * Creates a CSS string for initialization of effects.
+	 *
+	 * @param bgColor {string}
+	 *    The CSS color to use for the effect.
+	 * @param id {string}
+	 *    The ID for unique background color.
+	 * @returns {string}
+	 *    The CSS string to set ripple effect background.
+	 */
+	module.exports = function ripleyBackgroundStyle (bgColor, id)
+	{
+	  return `
+	    .ripley-effect${ id ? '-'+ id : '' } {
+	      background-image: url('data:image/svg+xml;base64,${ btoa(svg(bgColor)) }');
+	    }`;
+	};
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	const defaultColor = `rgba(0, 0, 0, 0.2)`;
+
+	/**
+	 * Generates the SVG for ripples.
+	 *
+	 * @param customColor {string}
+	 *    The CSS string to use as background color, in rgba format like: rgb(0,0,0).
+	 * @returns {string}
+	 *    The string to use as background image.
+	 */
+	module.exports = function ripleySVG (customColor)
+	{
+	  const color = (customColor || defaultColor);
+	  const colorSlice = JSON.parse(
+	    color
+	      .slice(
+	        color.indexOf('(')
+	      )
+	      .replace('(', '[')
+	      .replace(')', ']')
+	  );
+	  colorSlice[3] = 0.2;
+
+	  const normalizedColor = `rgba(${colorSlice.join(',')})`;
+
+	  return (`
+	    <svg xmlns="http://www.w3.org/2000/svg" id="ripleyCircle" height="100" width="100">
+	      <circle cx="50" cy="50" r="40" fill="${normalizedColor}" />
+	    </svg>`)
+	      .replace('\n', '');
 	};
 
 

@@ -28,6 +28,18 @@ button {
   display: block;
 }
 
+button.red {
+  color: red;
+}
+
+button.green {
+  color: green;
+}
+
+button.blue {
+  color: blue;
+}
+
 button:hover {
   background-color: #eee;
 }

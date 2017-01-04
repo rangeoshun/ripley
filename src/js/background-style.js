@@ -16,6 +16,6 @@ module.exports = function ripleyBackgroundStyle (bgColor, id)
 {
   return `
     .ripley-effect${ id ? '-'+ id : '' } {
-      background-image: url('data:image/svg+xml;utf8,${ svg(bgColor) }');
+      background-image: url('data:image/svg+xml;base64,${ btoa(svg(bgColor)) }');
     }`;
 };

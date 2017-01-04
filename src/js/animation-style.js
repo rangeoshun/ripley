@@ -1,5 +1,7 @@
 'use strict';
 
+const backgroundCSS = require('./background-style');
+
 /**
  * Creates per click CSS animation strings.
  *
@@ -24,7 +26,9 @@ module.exports = function ripleyAnimationCSS (ev, element, id, isTouchDevice)
   const finalY = posY - finalRadius / 2;
 
   return `
-    .ripley-${id} {
+    ${backgroundCSS(getComputedStyle(element).color, id)}
+
+    .ripley-effect-${id} {
         background-size: ${finalRadius}px;
         -webkit-background-size: ${finalRadius}px;
         background-position: ${finalX}px ${finalY}px;

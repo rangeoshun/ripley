@@ -12,5 +12,6 @@ module.exports = function createStyle (styleString)
 {
   const style = document.createElement('style');
   style.innerHTML = styleString.replace(/\t/g, '').replace(/\n/g, '');
+
   return style;
 };

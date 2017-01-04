@@ -34,7 +34,7 @@ module.exports = function addRipleyEffect (element)
 
     const outFunc = (ev) =>
     {
-      setTimeout(() => element.removeChild(ripleyEffect), 700);
+      setTimeout(() => element.removeChild(ripleyEffect), 70000);
       element.firstChild.classList.remove('ripley-in');
       element.removeEventListener(END_EVENT, outFunc);
       element.removeEventListener(OUT_EVENT, outFunc);
