@@ -58,7 +58,8 @@
 	};
 
 	document.addEventListener(
-	  'DOMContentLoaded', (ev) => {
+	  'DOMContentLoaded', (ev) =>
+	  {
 	    document.querySelectorAll('.ripley').forEach((element) =>
 	      addRipleyEffect(element)
 	    );
@@ -72,23 +73,24 @@
 
 	'use strict';
 
-	module.exports = function ripleyStaticCSS () {
+	module.exports = function ripleyStaticCSS ()
+	{
 	  return `
 	    .ripley {
 	      position: relative;
 	    }
 
 	    .ripley * {
-	      pointer-events: none;
+	      user-select: none;
 	    }
 
 	    .ripley-effect {
-	      content: ' ';
+	      content: '';
 	      display: block;
 	      position: absolute;
 
-	      width: 100%;
-	      height: 100%;
+	      width: inherit;
+	      height: inherit;
 	      top: 0;
 	      left:0;
 
@@ -124,7 +126,8 @@
 	 * @returns {string}
 	 *    The CSS string to set ripple effect background.
 	 */
-	module.exports = function ripleyBackgroundStyle (bgColor, id) {
+	module.exports = function ripleyBackgroundStyle (bgColor, id)
+	{
 	  return `
 	    .ripley-effect${ id ? '-'+ id : '' } {
 	      background-image: url('data:image/svg+xml;utf8,${ svg(bgColor) }');
@@ -149,7 +152,8 @@
 	 * @returns {string}
 	 *    The string to use as background image.
 	 */
-	module.exports = function ripleySVG (bgColor) {
+	module.exports = function ripleySVG (bgColor)
+	{
 	  return (`
 	    <svg xmlns="http://www.w3.org/2000/svg" id="ripleyCircle" height="100" width="100">
 	      <circle cx="50" cy="50" r="40" fill="${bgColor ? bgColor : defaultBGColor}" />
@@ -172,7 +176,8 @@
 	 * @returns {HTMLStyleElement}
 	 *      A real style tag element with requested content.
 	 */
-	module.exports = function createStyle (styleString) {
+	module.exports = function createStyle (styleString)
+	{
 	  const style = document.createElement('style');
 	  style.innerHTML = styleString.replace(/\t/g, '').replace(/\n/g, '');
 	  return style;
@@ -202,19 +207,23 @@
 	 * @param element {HTMLElement}
 	 *    The element to ripple.
 	 */
-	module.exports = function addRipleyEffect (element) {
-	  if (element.dataset.ripley) {
+	module.exports = function addRipleyEffect (element)
+	{
+	  if (element.dataset.ripley)
+	  {
 	    return;
 	  }
 
 	  element.dataset.ripley = true;
+	  element.dataset.ripleyId = new Date().getTime();
 	  element.classList.add('ripley');
 
-	  element.addEventListener(START_EVENT, (ev) => {
-	    const id = new Date().getTime();
-	    const ripleyEffect = createRipley(ev, id, isTouchDevice);
+	  element.addEventListener(START_EVENT, (ev) =>
+	  {
+	    const ripleyEffect = createRipley(ev, element, isTouchDevice);
 
-	    const outFunc = (ev) => {
+	    const outFunc = (ev) =>
+	    {
 	      setTimeout(() => element.removeChild(ripleyEffect), 700);
 	      element.firstChild.classList.remove('ripley-in');
 	      element.removeEventListener(END_EVENT, outFunc);
@@ -248,9 +257,11 @@
 	 * @returns {HTMLDivElement}
 	 *    The ripple effect wrapper DIV.
 	 */
-	module.exports = function createRipley (ev, id, isTouchDevice) {
+	module.exports = function createRipley (ev, element, isTouchDevice)
+	{
+	  const id = element.dataset.ripleyId;
 	  const ripley = document.createElement('div');
-	  ripley.appendChild(createStyle(animationCSS(ev, id, isTouchDevice)));
+	  ripley.appendChild(createStyle(animationCSS(ev, element, isTouchDevice)));
 	  ripley.className = `ripley-effect ripley-in ripley-${id}`;
 	  ripley.style.animation = `ripley-${id} 0.7s ease-in-out`;
 	  return ripley;
@@ -273,15 +284,19 @@
 	 * @returns {string}
 	 *    the customized ripple animation with correct X and Y coords.
 	 */
-	module.exports = function ripleyAnimationCSS (ev, id, isTouchDevice) {
-
-	  const width = ev.target.offsetWidth;
-	  const posX = !isTouchDevice ? ev.offsetX : ev.touches[0].clientX - ev.target.offsetLeft;
-	  const posY = !isTouchDevice ? ev.offsetY : ev.touches[0].clientY - ev.target.offsetTop;
+	module.exports = function ripleyAnimationCSS (ev, element, isTouchDevice)
+	{
+	  const id = element.dataset.ripleyId;
+	  const width = element.offsetWidth;
+	  const pointer = (!isTouchDevice ? ev : ev.touches[0]);
+	  const posX = pointer.clientX - element.offsetLeft;
+	  const posY = pointer.clientY - element.offsetTop;
 	  const finalRatio = 3;
 	  const finalRadius = width * finalRatio;
 	  const finalX = posX - finalRadius / 2;
 	  const finalY = posY - finalRadius / 2;
+
+	console.log(ev)
 
 	  return `
 	    .ripley-${id} {
@@ -306,7 +321,7 @@
 	        background-position: ${finalX}px ${finalY}px;
 	      }
 	    }`;
-	}
+	};
 
 
 /***/ }

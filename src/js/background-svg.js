@@ -11,7 +11,8 @@ const defaultBGColor = `rgba(0, 0, 0, 0.2)`;
  * @returns {string}
  *    The string to use as background image.
  */
-module.exports = function ripleySVG (bgColor) {
+module.exports = function ripleySVG (bgColor)
+{
   return (`
     <svg xmlns="http://www.w3.org/2000/svg" id="ripleyCircle" height="100" width="100">
       <circle cx="50" cy="50" r="40" fill="${bgColor ? bgColor : defaultBGColor}" />

@@ -12,7 +12,8 @@ window.ripley = {
 };
 
 document.addEventListener(
-  'DOMContentLoaded', (ev) => {
+  'DOMContentLoaded', (ev) =>
+  {
     document.querySelectorAll('.ripley').forEach((element) =>
       addRipleyEffect(element)
     );

@@ -1,22 +1,23 @@
 'use strict';
 
-module.exports = function ripleyStaticCSS () {
+module.exports = function ripleyStaticCSS ()
+{
   return `
     .ripley {
       position: relative;
     }
 
     .ripley * {
-      pointer-events: none;
+      user-select: none;
     }
 
     .ripley-effect {
-      content: ' ';
+      content: '';
       display: block;
       position: absolute;
 
-      width: 100%;
-      height: 100%;
+      width: inherit;
+      height: inherit;
       top: 0;
       left:0;
 

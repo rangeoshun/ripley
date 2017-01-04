@@ -17,19 +17,23 @@ const OUT_EVENT = !isTouchDevice ? 'mouseout' : 'touchmove';
  * @param element {HTMLElement}
  *    The element to ripple.
  */
-module.exports = function addRipleyEffect (element) {
-  if (element.dataset.ripley) {
+module.exports = function addRipleyEffect (element)
+{
+  if (element.dataset.ripley)
+  {
     return;
   }
 
   element.dataset.ripley = true;
+  element.dataset.ripleyId = new Date().getTime();
   element.classList.add('ripley');
 
-  element.addEventListener(START_EVENT, (ev) => {
-    const id = new Date().getTime();
-    const ripleyEffect = createRipley(ev, id, isTouchDevice);
+  element.addEventListener(START_EVENT, (ev) =>
+  {
+    const ripleyEffect = createRipley(ev, element, isTouchDevice);
 
-    const outFunc = (ev) => {
+    const outFunc = (ev) =>
+    {
       setTimeout(() => element.removeChild(ripleyEffect), 700);
       element.firstChild.classList.remove('ripley-in');
       element.removeEventListener(END_EVENT, outFunc);

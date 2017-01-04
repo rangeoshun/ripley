@@ -12,7 +12,8 @@ const svg = require('./background-svg');
  * @returns {string}
  *    The CSS string to set ripple effect background.
  */
-module.exports = function ripleyBackgroundStyle (bgColor, id) {
+module.exports = function ripleyBackgroundStyle (bgColor, id)
+{
   return `
     .ripley-effect${ id ? '-'+ id : '' } {
       background-image: url('data:image/svg+xml;utf8,${ svg(bgColor) }');
