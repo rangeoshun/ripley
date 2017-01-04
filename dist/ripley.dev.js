@@ -89,8 +89,8 @@
 	      display: block;
 	      position: absolute;
 
-	      width: inherit;
-	      height: inherit;
+	      width: 100%;
+	      height: 100%;
 	      top: 0;
 	      left:0;
 
@@ -261,9 +261,11 @@
 	{
 	  const id = element.dataset.ripleyId;
 	  const ripley = document.createElement('div');
+
 	  ripley.appendChild(createStyle(animationCSS(ev, element, isTouchDevice)));
 	  ripley.className = `ripley-effect ripley-in ripley-${id}`;
 	  ripley.style.animation = `ripley-${id} 0.7s ease-in-out`;
+
 	  return ripley;
 	};
 
@@ -295,8 +297,6 @@
 	  const finalRadius = width * finalRatio;
 	  const finalX = posX - finalRadius / 2;
 	  const finalY = posY - finalRadius / 2;
-
-	console.log(ev)
 
 	  return `
 	    .ripley-${id} {
