@@ -22,8 +22,6 @@ module.exports = function ripleyAnimationCSS (ev, element, isTouchDevice)
   const finalX = posX - finalRadius / 2;
   const finalY = posY - finalRadius / 2;
 
-console.log(ev)
-
   return `
     .ripley-${id} {
         background-size: ${finalRadius}px;

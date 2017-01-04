@@ -18,8 +18,10 @@ module.exports = function createRipley (ev, element, isTouchDevice)
 {
   const id = element.dataset.ripleyId;
   const ripley = document.createElement('div');
+
   ripley.appendChild(createStyle(animationCSS(ev, element, isTouchDevice)));
   ripley.className = `ripley-effect ripley-in ripley-${id}`;
   ripley.style.animation = `ripley-${id} 0.7s ease-in-out`;
+
   return ripley;
 };
