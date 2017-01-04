@@ -259,23 +259,6 @@
 	        background-position: ${finalX}px ${finalY}px;
 	    }
 
-	    @-ms-keyframes ripley-${id} {
-	      0% {
-	        background-size: 0;
-	        -webkit-background-size: 0;
-	        background-position: ${posX}px ${posY}px;
-	        opacity: 0.2;
-	      }
-	      50% {
-	        opacity: 0.7;
-	      }
-	      100% {
-	        background-size: ${finalRadius}px;
-	        -webkit-background-size: ${finalRadius}px;
-	        background-position: ${finalX}px ${finalY}px;
-	      }
-	    }
-
 	    @keyframes ripley-${id} {
 	      0% {
 	        background-size: 0;
