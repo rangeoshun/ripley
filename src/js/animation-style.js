@@ -5,6 +5,8 @@
  *
  * @param ev {MouseEvent}
  *    The click event from the element to ripple over.
+ * @param element {HTMLElement}
+ *    The element to ripple.
  * @param id {stirng}
  *    The unique ID for the effect per clicks.
  * @returns {string}

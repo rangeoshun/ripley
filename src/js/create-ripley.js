@@ -7,6 +7,8 @@ const animationCSS = require('./animation-style');
  *
  * @param ev {MouseEvent | TouchEvent}
  *    The user input event for triggering the ripple.
+ * @param element {HTMLElement}
+ *    The element to ripple.
  * @param id {number}
  *    The id for unique ripple like a timestamp.
  * @param isTouchDevice {boolean}
