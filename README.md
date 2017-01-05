@@ -54,3 +54,4 @@ $ npm run build
 ## Notes
 
  - The element will recieve the class `ripley` which will cause it to have `position: relative` to allow the effect match the size of the element.
+ - IE and Edge browsers are not supported yet.
