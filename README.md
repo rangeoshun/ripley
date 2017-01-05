@@ -2,7 +2,7 @@
 
 ## Demo
 
-https://jsfiddle.net/rangeoshun/mkpu6g99/
+[JSFiddle](https://jsfiddle.net/rangeoshun/mkpu6g99/)
 
 ## Usage
 
