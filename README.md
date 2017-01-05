@@ -1,5 +1,9 @@
 # Ripley, just another material ripple effect plugin
 
+## Demo
+
+https://jsfiddle.net/rangeoshun/mkpu6g99/
+
 ## Usage
 
 Include Ripley in your HTML.
