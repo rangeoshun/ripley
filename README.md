@@ -38,3 +38,15 @@ Or multiple elements. These will recieve `ripley` class.
     document.querySelectorAll('button').forEach((element) => ripley.add(element));
 </script>
 ```
+
+## Colors
+
+Currently Ripley uses the elements calculated `color` property, with an alpha of `0.2`;
+
+## Building
+
+After checkout run the following command, which will launch webpack.
+
+```bash
+$ npm run build
+```
