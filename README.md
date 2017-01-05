@@ -2,7 +2,7 @@
 
 ## Demo
 
-https://jsfiddle.net/rangeoshun/mkpu6g99/
+[JSFiddle](https://jsfiddle.net/rangeoshun/mkpu6g99/)
 
 ## Usage
 
@@ -37,4 +37,16 @@ Or multiple elements. These will recieve `ripley` class.
 <script>
     document.querySelectorAll('button').forEach((element) => ripley.add(element));
 </script>
+```
+
+## Colors
+
+Currently Ripley uses the elements calculated `color` property, with an alpha of `0.2`;
+
+## Building
+
+After checkout run the following command, which will launch webpack.
+
+```bash
+$ npm run build
 ```
