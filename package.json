@@ -1,7 +1,11 @@
 {
   "name": "ripley-effect",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "description": "Another material ripple effect solution.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rangeoshun/ripley"
+  },
   "main": "src/index.js",
   "scripts": {
     "build": "webpack --config webpack.dev.config.js | webpack --config webpack.min.config.js",
